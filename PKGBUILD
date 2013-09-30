@@ -6,9 +6,14 @@ pkgdesc='pyReScene is a port of ReScene .NET to the Python programming language.
 url='https://bitbucket.org/Gfy/pyrescene'
 arch=('any')
 license=('MIT')
-depends=('python2' 'chromaprint' 'python2-numpy' 'unrar')
+depends=('python2' 'python2-numpy')
+optdepends=(
+  'chromaprint: Recreating MP3 and FLAC sample files'
+  'unrar: Handling vobsub files'
+)
 makedepends=('mercurial' 'git' 'dos2unix')
-conflicts=('awescript' 'rescene-bin' 'resample-bin')
+conflicts=('awescript' 'rescene' 'resample')
+provides=('awescript' 'rescene' 'resample')
 
 _hgrepo='pyrescene'
 _hgroot="${url%/*}"
