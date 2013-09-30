@@ -1,6 +1,6 @@
 # Maintainer: dryes <joswiseman@gmail>
-pkgname='pyrescene-hg'
-pkgver=235.530c172a8e68
+pkgname=pyrescene
+pkgver=0.5.1
 pkgrel=1
 pkgdesc='Tools for backing up and restoring metadata from Rar files'
 url='https://bitbucket.org/Gfy/pyrescene'
@@ -11,39 +11,20 @@ optdepends=(
   'chromaprint: Recreating MP3 and FLAC sample files'
   'unrar: Handling vobsub files'
 )
-makedepends=('mercurial')
 conflicts=('awescript' 'rescene' 'resample')
 provides=('awescript' 'rescene' 'resample')
 
-_hgrepo='pyrescene'
-_hgroot="${url%/*}"
-
-pkgver() {
-  cd "${srcdir}/${_hgrepo}"
-  echo $(hg identify -n).$(hg identify -i) | sed 's|\+||g'
-}
-
-build() {
-  cd "${srcdir}"
-  
-  msg 'Connecting to hg server...'
-  
-  if [ -d "${_hgrepo}/.hg" ]; then
-    cd "${_hgrepo}" && hg pull -u
-  else
-    hg clone "${_hgroot}/${_hgrepo}"
-  fi
-}
+source=(
+  "https://bitbucket.org/Gfy/pyrescene/downloads/pyReScene-${pkgver}.zip")
+sha256sums=(2dd8c0120e93ed12f4b513c64e9784c67e3cc77c60eb1fd03e8890b9a4430d08)
 
 package() {
-  cd "${srcdir}/${_hgrepo}"
+  cd "${srcdir}/pyReScene-${pkgver}"
   
   python2 'setup.py' install --root="${pkgdir}"
 
-  cp 'awescript/awescript.py' 'awescript/awescript.py~'
   sed -i -r 's|/usr/local/bin/sr([rs])|sr\1|ig' 'awescript/awescript.py'
   install -D -m755 "awescript/awescript.py" "${pkgdir}/usr/bin/awescript"
-  mv 'awescript/awescript.py~' 'awescript/awescript.py'
   
   install -D -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }
