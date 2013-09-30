@@ -55,7 +55,6 @@ package() {
   mv 'rescene/srr.py~' 'rescene/srr.py'
 
   cp 'rescene/unrar.py' 'rescene/unrar.py~'
-  sed -i -r 's/^(from awescript import unrar)/\#\1/' 'rescene/unrar.py'
   sed -i -r 's|(unrar = )locate_unix\(\)|\1\"/usr/bin/unrar"|g' 'rescene/unrar.py'
   mkdir -p "${pkgdir}/opt/rarlinux"
   python2 'bin/preprardir.py' "${srcdir}/rarlinux" "${pkgdir}/opt/rarlinux"
