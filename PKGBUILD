@@ -11,7 +11,7 @@ optdepends=(
   'chromaprint: Recreating MP3 and FLAC sample files'
   'unrar: Handling vobsub files'
 )
-makedepends=('mercurial' 'git' 'dos2unix')
+makedepends=('mercurial' 'git')
 conflicts=('awescript' 'rescene' 'resample')
 provides=('awescript' 'rescene' 'resample')
 
@@ -59,16 +59,11 @@ package() {
   python2 'setup.py' install --root="${pkgdir}"
   mv 'rescene/srr.py~' 'rescene/srr.py'
 
-  cp 'rescene/unrar.py' 'rescene/unrar.py~'
-  sed -i -r 's|(unrar = )locate_unix\(\)|\1\"/usr/bin/unrar"|g' 'rescene/unrar.py'
   mkdir -p "${pkgdir}/opt/rarlinux"
   python2 'bin/preprardir.py' "${srcdir}/rarlinux" "${pkgdir}/opt/rarlinux"
-  mv 'rescene/unrar.py~' 'rescene/unrar.py'
 
   cp 'awescript/awescript.py' 'awescript/awescript.py~'
   sed -i -r 's|/usr/local/bin/sr([rs])|sr\1|ig' 'awescript/awescript.py'
-  sed -i -r 's/(print \"glob.glob \" \+ path)/None\#\1/g' 'awescript/awescript.py'
-  dos2unix 'awescript/awescript.py'
   install -D -m755 "awescript/awescript.py" "${pkgdir}/usr/bin/awescript"
   mv 'awescript/awescript.py~' 'awescript/awescript.py'
 }
