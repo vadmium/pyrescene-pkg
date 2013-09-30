@@ -2,7 +2,7 @@
 pkgname='pyrescene-hg'
 pkgver=235.530c172a8e68
 pkgrel=1
-pkgdesc='pyReScene is a port of ReScene .NET to the Python programming language.'
+pkgdesc='Tools for backing up and restoring metadata from Rar files'
 url='https://bitbucket.org/Gfy/pyrescene'
 arch=('any')
 license=('MIT')
@@ -44,4 +44,6 @@ package() {
   sed -i -r 's|/usr/local/bin/sr([rs])|sr\1|ig' 'awescript/awescript.py'
   install -D -m755 "awescript/awescript.py" "${pkgdir}/usr/bin/awescript"
   mv 'awescript/awescript.py~' 'awescript/awescript.py'
+  
+  install -D -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }
